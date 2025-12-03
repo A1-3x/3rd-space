@@ -313,6 +313,37 @@
             background: #f8f9fa;
         }
 
+        .view-toggle {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .view-toggle:hover {
+            background: #f8f9fa;
+        }
+
+        .view-toggle.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .view-toggle.active:hover {
+            background: #0056b3;
+        }
+
         .no-results {
             text-align: center;
             padding: 40px 20px;
@@ -331,24 +362,259 @@
             color: #6c757d;
         }
 
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .close-sidebar {
+            display: none;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-sidebar:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
+            body {
+                overflow: hidden;
+            }
+
+            .container {
+                position: relative;
+            }
+
             .sidebar {
-                position: absolute;
-                left: -400px;
+                position: fixed;
+                left: -100%;
+                top: 0;
+                width: 85%;
+                max-width: 350px;
                 z-index: 1000;
-                height: 100%;
-                transition: left 0.3s;
+                height: 100vh;
+                transition: left 0.3s ease-in-out;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
             }
 
             .sidebar.open {
                 left: 0;
+            }
+
+            .close-sidebar {
+                display: flex;
+            }
+
+            .sidebar-header {
+                padding: 15px;
+            }
+
+            .sidebar-header h1 {
+                font-size: 20px;
+                padding-right: 40px;
+            }
+
+            .sidebar-header p {
+                font-size: 12px;
+            }
+
+            .filters {
+                padding: 15px;
+            }
+
+            .filters h3 {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            .location-search label,
+            .filter-group label {
+                font-size: 13px;
+            }
+
+            .location-input-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .location-input-group input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px;
+            }
+
+            .location-input-group button {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .use-current-location {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .search-box {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 12px;
+            }
+
+            .list-view {
+                padding: 15px;
+            }
+
+            .list-view h3 {
+                font-size: 14px;
+            }
+
+            .location-item {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+
+            .location-name {
+                font-size: 15px;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .location-name > div {
+                flex: 1 1 100%;
+            }
+
+            .location-distance {
+                font-size: 13px;
+                margin-top: 4px;
+            }
+
+            .location-details {
+                font-size: 13px;
+            }
+
+            .toggle-sidebar {
+                padding: 12px 16px;
+                font-size: 18px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            }
+
+            .map-container {
+                width: 100%;
+            }
+
+            .view-toggle {
+                display: block;
+            }
+
+            .container.map-view .sidebar {
+                display: none;
+            }
+
+            .container.map-view .map-container {
+                width: 100%;
+            }
+
+            .container.list-view .map-container {
+                display: none;
+            }
+
+            .container.list-view .sidebar {
+                display: flex;
+                position: relative;
+                left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .container.list-view .sidebar-overlay {
+                display: none !important;
+            }
+
+            /* Improve touch targets */
+            .checkbox-item {
+                padding: 8px 0;
+            }
+
+            .checkbox-item input[type="checkbox"] {
+                width: 22px;
+                height: 22px;
+            }
+
+            .checkbox-item label {
+                font-size: 14px;
+            }
+
+            /* Better popup sizing on mobile */
+            .leaflet-popup-content-wrapper {
+                max-width: 280px;
+            }
+
+            .leaflet-popup-content {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .sidebar-header h1 {
+                font-size: 18px;
+            }
+
+            .location-item {
+                padding: 10px;
+            }
+
+            .location-name {
+                font-size: 14px;
+            }
+
+            .location-type {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .sidebar {
+                width: 60%;
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
         <div class="sidebar" id="sidebar">
+            <button class="close-sidebar" onclick="toggleSidebar()" aria-label="Close sidebar">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="sidebar-header">
                 <h1><i class="fas fa-map-marked-alt"></i> 3rd Space Finder</h1>
                 <p>Find libraries, recreation centers, and colleges near you</p>
@@ -417,8 +683,11 @@
         </div>
         
         <div class="map-container">
-            <button class="toggle-sidebar" id="toggleSidebar" onclick="toggleSidebar()">
+            <button class="toggle-sidebar" id="toggleSidebar" onclick="toggleSidebar()" aria-label="Toggle sidebar">
                 <i class="fas fa-bars"></i>
+            </button>
+            <button class="view-toggle" id="viewToggle" onclick="toggleView()" aria-label="Toggle view">
+                <i class="fas fa-list"></i> List View
             </button>
             <div id="map"></div>
         </div>
@@ -690,8 +959,8 @@
             const marker = L.marker([location.lat, location.lng], { icon: icon });
             
             // Create popup content
-            let popupContent = `<div style="min-width: 200px;">
-                <h3 style="margin: 0 0 10px 0; color: #2c3e50;">${location.name}</h3>
+            let popupContent = `<div style="min-width: 200px; max-width: 280px;">
+                <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 16px; word-wrap: break-word;">${location.name}</h3>
                 <div style="font-size: 13px; color: #6c757d; line-height: 1.6;">`;
             
             if (location.distance !== null) {
@@ -760,6 +1029,14 @@
                 
                 // Highlight item
                 highlightLocationInList(location.id);
+                
+                // Close sidebar on mobile after selecting a location
+                if (window.innerWidth <= 768) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (sidebar.classList.contains('open')) {
+                        toggleSidebar();
+                    }
+                }
             });
             
             return item;
@@ -975,7 +1252,80 @@
         // Toggle sidebar (for mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
+            const overlay = document.getElementById('sidebarOverlay');
+            const isOpen = sidebar.classList.contains('open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                // Prevent body scroll when sidebar is closed
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+                // Prevent body scroll when sidebar is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Toggle between map and list view (mobile)
+        function toggleView() {
+            const container = document.querySelector('.container');
+            const viewToggle = document.getElementById('viewToggle');
+            
+            if (container.classList.contains('map-view')) {
+                // Switch to list view
+                container.classList.remove('map-view');
+                container.classList.add('list-view');
+                viewToggle.innerHTML = '<i class="fas fa-map"></i> Map View';
+                viewToggle.classList.add('active');
+            } else {
+                // Switch to map view
+                container.classList.remove('list-view');
+                container.classList.add('map-view');
+                viewToggle.innerHTML = '<i class="fas fa-list"></i> List View';
+                viewToggle.classList.remove('active');
+            }
+        }
+
+        // Close sidebar when clicking on map (mobile only)
+        if (window.innerWidth <= 768) {
+            map.on('click', function() {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.classList.contains('open')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const container = document.querySelector('.container');
+            const viewToggle = document.getElementById('viewToggle');
+            
+            // On desktop, ensure sidebar is always visible
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                container.classList.remove('map-view', 'list-view');
+                viewToggle.style.display = 'none';
+            } else {
+                // On mobile, show view toggle
+                viewToggle.style.display = 'block';
+                // Default to map view on mobile
+                if (!container.classList.contains('map-view') && !container.classList.contains('list-view')) {
+                    container.classList.add('map-view');
+                }
+            }
+        });
+
+        // Initialize view on load
+        if (window.innerWidth <= 768) {
+            const container = document.querySelector('.container');
+            container.classList.add('map-view');
         }
 
         // Load data on page load
