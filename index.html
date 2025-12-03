@@ -27,9 +27,157 @@
             overflow: hidden;
         }
 
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .welcome-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .welcome-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .welcome-btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .welcome-btn-primary:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .welcome-btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .welcome-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .welcome-btn:active {
+            transform: translateY(0);
+        }
+
         .container {
             display: flex;
             height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .container.visible {
+            opacity: 1;
+        }
+
+        /* Desktop view toggle styles */
+        .container.map-view .sidebar {
+            display: none;
+        }
+
+        .container.map-view .map-container {
+            width: 100%;
+        }
+
+        .container.list-view .map-container {
+            display: none;
+        }
+
+        /* Keep view toggle visible even when map-container is hidden */
+        .container.list-view .view-toggle {
+            display: flex !important;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10000 !important;
+        }
+
+        .container.list-view .sidebar {
+            width: 100%;
+            position: relative;
+            left: 0;
+        }
+
+        .container.list-view .sidebar-overlay {
+            display: none !important;
+        }
+
+        .container.list-view .toggle-sidebar {
+            display: none;
+        }
+
+        .container.list-view .close-sidebar {
+            display: none;
         }
 
         .sidebar {
@@ -45,6 +193,7 @@
             padding: 20px;
             background: #2c3e50;
             color: white;
+            position: relative;
         }
 
         .sidebar-header h1 {
@@ -57,25 +206,84 @@
             opacity: 0.9;
         }
 
+        .close-sidebar {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none; /* Hidden on desktop */
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: background 0.2s;
+            z-index: 10;
+        }
+
+        .close-sidebar:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .close-sidebar:active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         .filters {
-            padding: 20px;
+            padding: 15px 20px;
             background: white;
             border-bottom: 1px solid #dee2e6;
         }
 
         .filters h3 {
             font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filters h3:hover {
+            color: #007bff;
+        }
+
+        .collapse-toggle {
+            font-size: 12px;
+            color: #6c757d;
+            transition: transform 0.3s ease;
+        }
+
+        .filters h3.collapsed .collapse-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .find-locations-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 1000px;
+            opacity: 1;
+        }
+
+        .find-locations-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
         }
 
         .location-search {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .location-search label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 500;
             color: #495057;
             font-size: 14px;
@@ -84,7 +292,7 @@
         .location-input-group {
             display: flex;
             gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .location-input-group input {
@@ -124,7 +332,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .use-current-location:hover {
@@ -312,41 +520,63 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .toggle-sidebar:hover {
             background: #f8f9fa;
         }
 
-        .view-toggle {
+        .sidebar-overlay {
             display: none;
-            position: absolute;
-            top: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .view-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: fixed;
+            top: 10px;
             right: 10px;
             z-index: 9999 !important;
             background: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             font-size: 14px;
             font-weight: 600;
             color: #2c3e50;
             pointer-events: auto;
+            transition: all 0.2s ease;
         }
 
         .view-toggle:hover {
             background: #f8f9fa;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
         }
 
         .view-toggle.active {
-            background: #007bff;
-            color: white;
+            background: white;
+            color: #2c3e50;
         }
 
         .view-toggle.active:hover {
-            background: #0056b3;
+            background: #f8f9fa;
+        }
+
+        .view-toggle i {
+            font-size: 16px;
         }
 
         .no-results {
@@ -620,23 +850,64 @@
                 max-width: 300px;
             }
         }
+        @media (max-width: 768px) {
+            .welcome-content h1 {
+                font-size: 36px;
+            }
+
+            .welcome-content p {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .welcome-btn {
+                padding: 14px 25px;
+                font-size: 16px;
+            }
+
+            .welcome-buttons {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <h1><i class="fas fa-map-marked-alt"></i> 3rd Space Finder</h1>
+            <p>Discover libraries, recreation centers, and colleges near you</p>
+            <div class="welcome-buttons">
+                <button class="welcome-btn welcome-btn-primary" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Log In
+                </button>
+                <button class="welcome-btn welcome-btn-secondary" onclick="handleGuest()">
+                    <i class="fas fa-user-circle"></i>
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
         <div class="sidebar" id="sidebar">
-            <button class="close-sidebar" onclick="toggleSidebar()" aria-label="Close sidebar">
-                <i class="fas fa-times"></i>
-            </button>
             <div class="sidebar-header">
+                <button class="close-sidebar" onclick="closeSidebar()" aria-label="Close sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
                 <h1><i class="fas fa-map-marked-alt"></i> 3rd Space Finder</h1>
                 <p>Find libraries, recreation centers, and colleges near you</p>
             </div>
             
             <div class="filters">
-                <h3><i class="fas fa-filter"></i> Find Locations</h3>
+                <h3 id="findLocationsToggle" onclick="toggleFindLocations()">
+                    <span><i class="fas fa-filter"></i> Find Locations</span>
+                    <i class="fas fa-chevron-down collapse-toggle"></i>
+                </h3>
                 
+                <div class="find-locations-content" id="findLocationsContent">
                 <div class="location-search">
                     <label>Search by Location</label>
                     <div class="location-input-group">
@@ -658,6 +929,7 @@
                        id="searchBox" 
                        class="search-box" 
                        placeholder="Search by name, address, or city...">
+                </div>
                 
                 <div class="filter-group">
                     <label>Location Types</label>
@@ -696,12 +968,12 @@
             </div>
         </div>
         
+        <button class="view-toggle" id="viewToggle" onclick="toggleView()" aria-label="Toggle view">
+            <i class="fas fa-list"></i> List View
+        </button>
         <div class="map-container">
             <button class="toggle-sidebar" id="toggleSidebar" onclick="toggleSidebar()" aria-label="Toggle sidebar">
                 <i class="fas fa-bars"></i>
-            </button>
-            <button class="view-toggle" id="viewToggle" onclick="toggleView()" aria-label="Toggle view">
-                <i class="fas fa-list"></i> List View
             </button>
             <div id="map"></div>
         </div>
@@ -714,29 +986,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
 
     <script>
-        // Initialize map
-        const map = L.map('map', {
-            zoomControl: true
-        }).setView([39.005, -76.935], 12);
-        
-        // Move zoom controls to bottom-left to avoid conflict with our buttons
-        map.zoomControl.setPosition('bottomleft');
-        
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Ensure view toggle button is above Leaflet controls
-        map.whenReady(function() {
-            const viewToggle = document.getElementById('viewToggle');
-            if (viewToggle) {
-                viewToggle.style.zIndex = '9999';
-                viewToggle.style.position = 'absolute';
-                viewToggle.style.top = '10px';
-                viewToggle.style.right = '10px';
-            }
-        });
+        // Initialize map (will be set up after welcome screen)
+        let map = null;
 
         // Store all locations and markers
         let allLocations = [];
@@ -1286,19 +1537,74 @@
             const isOpen = sidebar.classList.contains('open');
             
             if (isOpen) {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-                // Prevent body scroll when sidebar is closed
-                document.body.style.overflow = '';
+                closeSidebar();
             } else {
-                sidebar.classList.add('open');
-                overlay.classList.add('active');
-                // Prevent body scroll when sidebar is open
-                document.body.style.overflow = 'hidden';
+                openSidebar();
             }
         }
 
-        // Toggle between map and list view (mobile)
+        // Open sidebar
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.add('open');
+            if (overlay) {
+                overlay.classList.add('active');
+            }
+            // Prevent body scroll when sidebar is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close sidebar
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('open');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+            // Restore body scroll when sidebar is closed
+            document.body.style.overflow = '';
+        }
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+
+        // Toggle Find Locations section
+        function toggleFindLocations() {
+            const toggle = document.getElementById('findLocationsToggle');
+            const content = document.getElementById('findLocationsContent');
+            
+            toggle.classList.toggle('collapsed');
+            content.classList.toggle('collapsed');
+        }
+
+        // Exit list view - return to default view (both map and sidebar visible on desktop, map only on mobile)
+        function exitListView() {
+            const container = document.querySelector('.container');
+            const viewToggle = document.getElementById('viewToggle');
+            
+            // Remove list-view class to return to default
+            container.classList.remove('list-view');
+            
+            // On desktop, show both map and sidebar (no class = default)
+            // On mobile, default to map view
+            if (window.innerWidth <= 768) {
+                container.classList.add('map-view');
+            }
+            
+            // Update toggle button
+            if (viewToggle) {
+                viewToggle.innerHTML = '<i class="fas fa-list"></i> List View';
+                viewToggle.classList.remove('active');
+            }
+        }
+
+        // Toggle between map and list view (works on both mobile and desktop)
         function toggleView() {
             const container = document.querySelector('.container');
             const viewToggle = document.getElementById('viewToggle');
@@ -1309,12 +1615,16 @@
                 container.classList.add('list-view');
                 viewToggle.innerHTML = '<i class="fas fa-map"></i> Map View';
                 viewToggle.classList.add('active');
-            } else {
+            } else if (container.classList.contains('list-view')) {
                 // Switch to map view
                 container.classList.remove('list-view');
                 container.classList.add('map-view');
                 viewToggle.innerHTML = '<i class="fas fa-list"></i> List View';
                 viewToggle.classList.remove('active');
+            } else {
+                // Initial state - default to map view
+                container.classList.add('map-view');
+                viewToggle.innerHTML = '<i class="fas fa-list"></i> List View';
             }
         }
 
@@ -1323,7 +1633,7 @@
             map.on('click', function() {
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar.classList.contains('open')) {
-                    toggleSidebar();
+                    closeSidebar();
                 }
             });
         }
@@ -1335,17 +1645,21 @@
             const container = document.querySelector('.container');
             const viewToggle = document.getElementById('viewToggle');
             
-            // On desktop, ensure sidebar is always visible
+            // On desktop, show view toggle and allow toggling
             if (window.innerWidth > 768) {
                 sidebar.classList.remove('open');
-                overlay.classList.remove('active');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
                 document.body.style.overflow = '';
-                container.classList.remove('map-view', 'list-view');
-                viewToggle.style.display = 'none';
+                // Keep current view state (map-view or list-view) or default to showing both
+                if (!container.classList.contains('map-view') && !container.classList.contains('list-view')) {
+                    // Default: show both on desktop
+                }
+                // View toggle is always visible on desktop now
             } else {
                 // On mobile, show view toggle
-                viewToggle.style.display = 'block';
-                // Default to map view on mobile
+                // Default to map view on mobile if no view is set
                 if (!container.classList.contains('map-view') && !container.classList.contains('list-view')) {
                     container.classList.add('map-view');
                 }
@@ -1355,11 +1669,82 @@
         // Initialize view on load
         if (window.innerWidth <= 768) {
             const container = document.querySelector('.container');
-            container.classList.add('map-view');
+            if (!container.classList.contains('map-view') && !container.classList.contains('list-view')) {
+                container.classList.add('map-view');
+            }
         }
 
-        // Load data on page load
-        loadData();
+        // Welcome screen handlers
+        function handleLogin() {
+            // Hide welcome screen and show map
+            hideWelcomeScreen();
+            // In a real app, you would handle authentication here
+            console.log('User clicked Log In');
+        }
+
+        function handleGuest() {
+            // Hide welcome screen and show map
+            hideWelcomeScreen();
+            console.log('User continuing as guest');
+        }
+
+        function hideWelcomeScreen() {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            // Hide welcome screen
+            welcomeScreen.classList.add('hidden');
+            
+            // Show main container and initialize map
+            setTimeout(() => {
+                mainContainer.classList.add('visible');
+                
+                // Initialize map if not already initialized
+                if (!map) {
+                    map = L.map('map', {
+                        zoomControl: true
+                    }).setView([39.005, -76.935], 12);
+                    
+                    // Move zoom controls to bottom-left to avoid conflict with our buttons
+                    map.zoomControl.setPosition('bottomleft');
+                    
+                    // Add tile layer
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    // Ensure view toggle button is above Leaflet controls
+                    map.whenReady(function() {
+                        const viewToggle = document.getElementById('viewToggle');
+                        if (viewToggle) {
+                            viewToggle.style.zIndex = '9999';
+                            viewToggle.style.position = 'absolute';
+                            viewToggle.style.top = '10px';
+                            viewToggle.style.right = '10px';
+                        }
+                        
+                        // Set initial view state - default to showing both (no class = both visible)
+                        // User can toggle to show only map or only list
+                        const container = document.querySelector('.container');
+                        if (!container.classList.contains('map-view') && !container.classList.contains('list-view')) {
+                            // Default: show both sidebar and map on desktop
+                            if (window.innerWidth > 768) {
+                                // Desktop: show both by default
+                            } else {
+                                // Mobile: default to map view
+                                container.classList.add('map-view');
+                            }
+                        }
+                    });
+                }
+                
+                // Load data after showing the map
+                loadData();
+            }, 300);
+        }
+
+        // Don't load data on page load - wait for user to click a button
+        // loadData();
     </script>
 </body>
 </html>
