@@ -33,7 +33,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0066cc 0%, #2c3e50 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -104,7 +104,7 @@
 
         .welcome-btn-primary {
             background: white;
-            color: #667eea;
+            color: #0066cc;
         }
 
         .welcome-btn-primary:hover {
@@ -114,14 +114,14 @@
         }
 
         .welcome-btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.4);
         }
 
         .welcome-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
         }
 
@@ -251,12 +251,12 @@
         }
 
         .filters h3:hover {
-            color: #007bff;
+            color: #0066cc;
         }
 
         .collapse-toggle {
             font-size: 12px;
-            color: #6c757d;
+            color: #495057;
             transition: transform 0.3s ease;
         }
 
@@ -305,7 +305,7 @@
 
         .location-input-group button {
             padding: 10px 15px;
-            background: #007bff;
+            background: #0066cc;
             color: white;
             border: none;
             border-radius: 5px;
@@ -315,18 +315,19 @@
         }
 
         .location-input-group button:hover {
-            background: #0056b3;
+            background: #0052a3;
         }
 
         .location-input-group button:disabled {
             background: #6c757d;
+            color: #ffffff;
             cursor: not-allowed;
         }
 
         .use-current-location {
             width: 100%;
             padding: 10px;
-            background: #28a745;
+            background: #2e7d32;
             color: white;
             border: none;
             border-radius: 5px;
@@ -336,17 +337,18 @@
         }
 
         .use-current-location:hover {
-            background: #218838;
+            background: #1b5e20;
         }
 
         .use-current-location:disabled {
             background: #6c757d;
+            color: #ffffff;
             cursor: not-allowed;
         }
 
         .location-status {
             font-size: 12px;
-            color: #6c757d;
+            color: #495057;
             margin-top: 5px;
             font-style: italic;
         }
@@ -401,7 +403,7 @@
 
         .location-count {
             font-size: 12px;
-            color: #6c757d;
+            color: #495057;
             margin-left: auto;
         }
 
@@ -433,8 +435,8 @@
         }
 
         .location-item.highlighted {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.3);
         }
 
         .location-name {
@@ -451,7 +453,7 @@
         .location-distance {
             font-size: 14px;
             font-weight: 600;
-            color: #007bff;
+            color: #0066cc;
         }
 
         .location-type {
@@ -464,23 +466,23 @@
         }
 
         .location-type.library {
-            background: #fee;
-            color: #c33;
+            background: #ffebee;
+            color: #b71c1c;
         }
 
         .location-type.recreation {
-            background: #eef;
-            color: #33c;
+            background: #e3f2fd;
+            color: #0d47a1;
         }
 
         .location-type.college {
-            background: #efe;
-            color: #3c3;
+            background: #e8f5e9;
+            color: #1b5e20;
         }
 
         .location-details {
             font-size: 14px;
-            color: #6c757d;
+            color: #495057;
             line-height: 1.6;
         }
 
@@ -582,7 +584,7 @@
         .no-results {
             text-align: center;
             padding: 40px 20px;
-            color: #6c757d;
+            color: #495057;
         }
 
         .no-results i {
@@ -594,7 +596,7 @@
         .loading {
             text-align: center;
             padding: 20px;
-            color: #6c757d;
+            color: #495057;
         }
 
         .sidebar-overlay {
@@ -875,8 +877,8 @@
     <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <div class="welcome-content">
-            <h1><i class="fas fa-map-marked-alt"></i> 3rd Space Finder</h1>
-            <p>Discover libraries, recreation centers, and colleges near you</p>
+            <h1><i class="fas fa-map-marked-alt"></i> 3rdSpace</h1>
+            <p>Find your place</p>
             <div class="welcome-buttons">
                 <button class="welcome-btn welcome-btn-primary" onclick="handleLogin()">
                     <i class="fas fa-sign-in-alt"></i>
@@ -897,8 +899,8 @@
                 <button class="close-sidebar" onclick="closeSidebar()" aria-label="Close sidebar">
                     <i class="fas fa-times"></i>
                 </button>
-                <h1><i class="fas fa-map-marked-alt"></i> 3rd Space Finder</h1>
-                <p>Find libraries, recreation centers, and colleges near you</p>
+                <h1><i class="fas fa-map-marked-alt"></i> 3rdSpace</h1>
+                <p>Find your place</p>
             </div>
             
             <div class="filters">
@@ -937,7 +939,7 @@
                         <div class="checkbox-item">
                             <input type="checkbox" id="filter-library" checked>
                             <label for="filter-library">
-                                <i class="fas fa-book" style="color: #c33;"></i>
+                                <i class="fas fa-book" style="color: #b71c1c;"></i>
                                 Libraries
                                 <span class="location-count" id="count-library">0</span>
                             </label>
@@ -945,7 +947,7 @@
                         <div class="checkbox-item">
                             <input type="checkbox" id="filter-recreation" checked>
                             <label for="filter-recreation">
-                                <i class="fas fa-map-marker-alt" style="color: #33c;"></i>
+                                <i class="fas fa-map-marker-alt" style="color: #0d47a1;"></i>
                                 Recreation Centers
                                 <span class="location-count" id="count-recreation">0</span>
                             </label>
@@ -953,7 +955,7 @@
                         <div class="checkbox-item">
                             <input type="checkbox" id="filter-college" checked>
                             <label for="filter-college">
-                                <i class="fas fa-university" style="color: #3c3;"></i>
+                                <i class="fas fa-university" style="color: #1b5e20;"></i>
                                 Colleges & Universities
                                 <span class="location-count" id="count-college">0</span>
                             </label>
@@ -1007,14 +1009,14 @@
                 countId: 'count-library'
             },
             recreation: {
-                color: 'blue',
+                color: 'darkblue',
                 icon: 'map-marker-alt',
                 label: 'Recreation Centers',
                 filterId: 'filter-recreation',
                 countId: 'count-recreation'
             },
             college: {
-                color: 'green',
+                color: 'darkgreen',
                 icon: 'university',
                 label: 'Colleges & Universities',
                 filterId: 'filter-college',
@@ -1097,9 +1099,10 @@
 
             // Add circle to show search area
             userCircle = L.circle([lat, lng], {
-                color: 'purple',
-                fillColor: 'purple',
-                fillOpacity: 0.1,
+                color: '#7b1fa2',
+                fillColor: '#7b1fa2',
+                fillOpacity: 0.15,
+                weight: 2,
                 radius: 10000 // 10km radius
             }).addTo(map);
 
@@ -1242,7 +1245,7 @@
             // Create popup content
             let popupContent = `<div style="min-width: 200px; max-width: 280px;">
                 <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 16px; word-wrap: break-word;">${location.name}</h3>
-                <div style="font-size: 13px; color: #6c757d; line-height: 1.6;">`;
+                <div style="font-size: 13px; color: #495057; line-height: 1.6;">`;
             
             if (location.distance !== null) {
                 popupContent += `<div><i class="fas fa-route"></i> <strong>${formatDistance(location.distance)}</strong></div>`;
