@@ -636,6 +636,182 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* Submit Location Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #495057;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .modal-body {
+            padding-top: 10px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0 0 25px 0;
+            line-height: 1.5;
+        }
+
+        .submit-location-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel,
+        .btn-submit {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+        }
+
+        .btn-submit {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
         @media (max-width: 768px) {
             body {
                 overflow: hidden;
@@ -819,6 +995,35 @@
             .leaflet-popup-content {
                 font-size: 14px;
             }
+
+            /* Form styling on mobile */
+            .modal-content {
+                padding: 20px;
+                max-width: 95%;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+
+            .modal-subtitle {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel,
+            .btn-submit {
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -974,10 +1179,77 @@
             <i class="fas fa-list"></i> List View
         </button>
         <div class="map-container">
-            <button class="toggle-sidebar" id="toggleSidebar" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <button class="toggle-sidebar" id="toggleSidebar" onclick="showSubmitLocationModal()" aria-label="Submit location">
                 <i class="fas fa-bars"></i>
             </button>
             <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- Submit Location Modal -->
+    <div class="modal-overlay" id="submitLocationModal" onclick="closeSubmitLocationModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeSubmitLocationModal()" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <h2 class="modal-title">Submit a Location to 3rdSpace</h2>
+                <p class="modal-subtitle">Help us expand our map by suggesting a new location</p>
+                <form id="submitLocationForm" class="submit-location-form">
+                    <div class="form-group">
+                        <label for="locationName">Location Name <span class="required">*</span></label>
+                        <input type="text" id="locationName" name="locationName" placeholder="e.g., Central Library" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="locationAddress">Street Address <span class="required">*</span></label>
+                        <input type="text" id="locationAddress" name="locationAddress" placeholder="e.g., 123 Main Street" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="locationCity">City <span class="required">*</span></label>
+                            <input type="text" id="locationCity" name="locationCity" placeholder="e.g., Rockville" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="locationZip">Zip Code</label>
+                            <input type="text" id="locationZip" name="locationZip" placeholder="e.g., 20850" pattern="[0-9]{5}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="locationType">Location Type <span class="required">*</span></label>
+                        <select id="locationType" name="locationType" required>
+                            <option value="">Select a type...</option>
+                            <option value="library">Library</option>
+                            <option value="recreation">Recreation Center</option>
+                            <option value="college">College/University</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="locationPhone">Phone Number</label>
+                        <input type="tel" id="locationPhone" name="locationPhone" placeholder="e.g., (240) 555-1234">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="locationWebsite">Website</label>
+                        <input type="url" id="locationWebsite" name="locationWebsite" placeholder="e.g., https://example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="locationDescription">Additional Notes</label>
+                        <textarea id="locationDescription" name="locationDescription" rows="3" placeholder="Any additional information about this location..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeSubmitLocationModal()">Cancel</button>
+                        <button type="submit" class="btn-submit">Submit Location</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -1533,6 +1805,43 @@
             }
         });
 
+        // Show submit location modal
+        function showSubmitLocationModal() {
+            const modal = document.getElementById('submitLocationModal');
+            if (modal) {
+                modal.classList.add('active');
+                // Prevent body scroll when modal is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close submit location modal
+        function closeSubmitLocationModal(event) {
+            // If event is provided and it's from clicking the overlay, close the modal
+            // If event is from the close button, also close
+            const modal = document.getElementById('submitLocationModal');
+            if (modal) {
+                modal.classList.remove('active');
+                // Restore body scroll when modal is closed
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Handle form submission (prototype - doesn't actually submit)
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('submitLocationForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Prototype: just show an alert and close the modal
+                    alert('Thank you for your submission! This is a prototype, so the location has not been added to the map.');
+                    closeSubmitLocationModal();
+                    // Reset form
+                    form.reset();
+                });
+            }
+        });
+
         // Toggle sidebar (for mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1570,10 +1879,11 @@
             document.body.style.overflow = '';
         }
 
-        // Close sidebar on escape key
+        // Close sidebar and modal on escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeSidebar();
+                closeSubmitLocationModal();
             }
         });
 
