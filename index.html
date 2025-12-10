@@ -1479,11 +1479,12 @@
 
             // Extract data based on type
             if (type === 'library') {
-                location.name = props.streetaddr || props.name || 'Library';
-                location.address = props.streetaddr || '';
-                location.city = props.city || '';
-                location.zip = props.zip || '';
-                location.website = props.systemurl || '';
+                location.name = props.ANCHORNAME || props.anchorname || props.name || props.streetaddr || 'Library';
+                location.address = props.STREETADDR || props.streetaddr || props.ADDRESS || '';
+                location.city = props.City || props.city || '';
+                location.zip = props.ZIP || props.zip || '';
+                location.phone = props.TELEPHONE || props.telephone || '';
+                location.website = props.SYSTEMURL || props.systemurl || '';
             } else if (type === 'recreation') {
                 location.name = props.NAME || props.name || 'Recreation Center';
                 location.address = props.ADDRESS || props.address || '';
